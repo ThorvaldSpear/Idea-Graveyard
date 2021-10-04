@@ -1,0 +1,50 @@
+Basic idea:
+
+We want something we can easily create maps with. Currently, maps are created by manually typing out the timings and keys to be hit into a file. This is inefficient, but easy to set up. A good mapping tool would plug into this existing system by creating a file with the correct format for the game to read, along with being easy to use.
+
+Bare Minimum:
+	1. Export file to a given format.
+	2. Be faster than typing things out by hand.
+	
+Goals:
+	1. Easily select which key will be hit at which time.
+	2. Graphically display mapping information.
+	3. Allow loading and editting of previously-mapped songs.
+	
+	Ideal:
+	1. Allow playback and testing without exporting the song.
+	2. Include a way to add a song title and image.
+	3. Don't Look Like Shit(tm)
+
+The exporting of the song to the format you've already set up shouldn't be too difficult. From what I can tell, you've got a relatively simple format of 'key, timing' and then some other stuff that I guess are meant to be modifiers? It's always a '0,/' pair, so I'm assuming it's either not added yet or you just didn't feel the need to put it in to andromedaHard (the song I'm referencing as I type this). 
+
+Whatever it is - when setting up the mapping tool, it should be pretty simple to just store things in the same format as we're editting, then export it all when we're done. From what I can tell, it shouldn't be vital to have things in any particular sequence, since it looks like it all gets loaded and interpretted at once, and then everything ends up in the right place anyway. This is good, it means we don't have to worry about keeping things in an order, and can just export everything that's in memory.
+
+So as far as visuallizing things go, you don't actually have to be very fancy. You've got 7 keys, so we can make 7 horizontal lines, make it so when you click on them it generates a note at the given time, and then store that somewhere. All we've really got to do is display some lines and the time - not very hard - make it scrollable -  also relatively simple - make it clickable, and find then store the time we clicked on. This shouldn't be too awful, it'll just include some math, but I can't immediately think of how to do it, and I've got to get back to work, so I'll let you figure out something creative, and throw out a few ideas below.
+
+Idea #1 - Sheet Music
+
+Look up sheet music and you'll notice it's got horizontal lines to denote what is being played and vertical ones to denote when it's played. We can steal this and make something similar (4-key example below), where the vertical lines all represent 1 second, and we just find the distance to one or the other, and use that to determine our time.
+
+Example:
+       1 	  2		 3    4    5
+1  ____|____|____|____|____|
+2  ____|_x__|____|____|____|
+3  ____|____|____|____|____|
+4  ____|____|____|____|____|
+
+Let's say we click on the x. This is on the horizontal line for key 2, and roughly 1/4 of the way past vertical line 1, which we'll just assume is exactly 1/4 of the way past it. So, we can say that the x represents a key press for key 2 at 1.25 seconds into the song, because we're on the horizontal line for key 2 and 1/4 of the way past vertical line 1.
+
+This is how many rhythm games that are 'on rails' do things, since it's fairly simple to understand, and easy to translate to something your game can understand.
+
+Idea #2 - I don't actually have a second idea, so here's an ascii cat instead
+
+
+        _..---...,""-._     ,/}/)
+     .''        ,      ``..'(/-<
+    /   _      {      )         \
+   ;   _ `.     `.   <         a(
+ ,'   ( \  )      `.  \ __.._ .: y
+(  <\_-) )'-.____...\  `._   //-'
+ `. `-' /-._)))      `-._)))
+   `...'         
